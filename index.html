@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Project 2 Report</title>
+        <style>
+            :root {
+                --color-neutral-95: hsl(220 10% 95%);
+                --color-neutral-90: hsl(220 10% 90%);
+                --color-neutral-80: hsl(220 10% 80%);
+                --color-neutral-70: hsl(220 10% 70%);
+                --color-neutral-60: hsl(220 10% 60%);
+                --color-neutral-50: hsl(220 10% 50%);
+                --color-neutral-40: hsl(220 10% 40%);
+                --color-neutral-30: hsl(220 10% 30%);
+                --color-neutral-20: hsl(220 10% 20%);
+                --color-neutral-10: hsl(220 10% 10%);
+            }
+
+            html {
+                font: 100%/1.5 system-ui;
+                counter-reset: figure;
+                background: var(--color-neutral-95);
+                max-width: min(75vw, 80em);
+                margin: 0 auto;
+            }
+
+            /* Headings */
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                line-height: 1.1;
+                font-weight: 600;
+                text-wrap: balance;
+            }
+
+            h1,
+            h2 {
+                border-bottom: 1px solid var(--color-neutral-80);
+                padding-bottom: 0.2em;
+            }
+
+            h1 {
+                margin-block: 1em 0.5rem;
+                font-size: clamp(2.5em, 150% + 2vh + 2vw, 10vmin);
+                font-weight: 800;
+
+                small {
+                    display: block;
+                    width: fit-content;
+                    padding: 0.2em 0.5em;
+                    margin-inline: auto;
+                    color: white;
+                    background: var(--color-neutral-40);
+                    font-size: 40%;
+                    text-transform: uppercase;
+                    white-space: nowrap;
+                }
+            }
+
+            h2 {
+                font-size: 180%;
+                color: var(--color-neutral-30);
+            }
+
+            h3 {
+                font-size: 130%;
+            }
+
+            /* Lists */
+
+            ul,
+            ol {
+                padding-inline-start: 2em;
+            }
+
+            li {
+                &::marker {
+                    color: var(--color-neutral-40);
+                }
+
+                + li {
+                    margin-top: 0.2em;
+                }
+            }
+
+            /* Sectioning elements */
+
+            header {
+                padding-block: 1em;
+                text-align: center;
+            }
+
+            main {
+                background: white;
+                color: var(--color-neutral-20);
+                border-radius: 1rem;
+                padding: 0.1rem 2rem;
+            }
+
+            /* Figures */
+
+            figure {
+                margin: 1em 0;
+                padding: 0.5rem;
+                margin-inline: -0.5em;
+                border: 1px solid var(--color-neutral-80);
+                box-shadow: 0 0.1em 0.2em var(--color-neutral-95);
+                text-align: center;
+                background: white;
+
+                > figcaption {
+                    font: 500 75% var(--font-sans);
+                    background: var(--color-neutral-95);
+                    padding: 0.5rem;
+                    margin: -0.5rem;
+                    margin-top: 0.5rem;
+                    counter-increment: figure;
+                    text-align: left;
+
+                    &::before {
+                        content: "Figure " counter(figure) ": ";
+                        font-weight: bold;
+                        color: var(--color-neutral-40);
+                    }
+
+                    a:not(:hover, :focus, :active) {
+                        color: inherit;
+                        text-decoration: underline;
+                        text-decoration-color: color-mix(
+                            in lab,
+                            currentColor,
+                            transparent 70%
+                        );
+                    }
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <small>Project 2</small>
+                Persuasive or Deceptive Visualization?
+            </h1>
+
+            <p><strong>Brian Sun, Christian Kimayong, Antony Munkhchuluun</strong> — <em>brsun@ucsd.edu, ckimayong@ucsd.edu, emunkhchuluun@ucsd.edu</em></p>
+        </header>
+
+        <main>
+            <h2>Proposition: Is race associated with patterns of police complaints?</h2>
+
+            <section>
+                <h3>FOR the Proposition</h3>
+
+                <figure>
+                    <img src="supporting.png" alt="Graph affirming race associated with police complaints." />
+                    <figcaption>The graph above shows that the vast majority of police complaints come from black complainants. 
+                        Complaints from black complainants surged during the "Stop and Frisk" era, which allowed NYC police to search people based on "resonable suspicion".</figcaption>
+                </figure>
+
+                <p>Design Decisions and Rationale:</p>
+
+                <ul>
+                    <li>Line chart instead of bar chart:<br>
+                        A line chart lets the reader see how complaint volumes move differently across racial groups over time, which is the core of the proposition. 
+                        A static bar chart would only show total counts and lose the ability to show trends over time. 
+                        The over-time view is what makes the racial disparity legible, particularly the stop-and-frisk surge and post-2013 decline.<br><br>
+
+                        Score: +2 (Earnest)<br><br>
+                    </li>
+                    <li>Removing copies of the same complaint:<br>
+                        The raw dataset has multiple allegation rows per complaint. Counting raw rows would inflate years with more complex complaints and distort the trend. 
+                        By deduplicating on complaint_id before grouping, each complaint is counted exactly once per year, making the volume comparison honest across time and across racial groups.<br><br>
+
+                        Score: +2 (Earnest)<br><br>
+                    </li>
+                    <li>Highlighting stop-and-frisk historical era:<br>
+                        The shaded band (2003–2013) and text label provide factual historical context that explains why Black and Hispanic complaint volumes spiked during that period. 
+                        This has a score of 0 because it brings attention to certain years and does not change how the data is viewed.<br><br>
+
+                        Score: 0 (Neutral)<br><br>
+                    </li>
+                    <li>Excluding year with incomplete data:<br>
+                        2020 had very few complaints recorded across all groups because the dataset was released mid-year (July 2020) and is therefore incomplete. 
+                        Including it would create a dramatic artificial cliff at the end of every line, misleading readers into thinking complaints collapsed. 
+                        Dropping it and noting this in the caption is the transparent choice.<br><br>
+
+                        Score: +2 (Earnest)<br><br>
+                    </li>
+                    <li>Acknowledging dataset limitations:<br>
+                        The source note explicitly states the dataset source, the deduplication method, and the 2020 exclusion. 
+                        This is important because the dataset is not a complete count of all NYC police complaints. 
+                        Flagging the source invites the reader to verify rather than take the visualization at face value.<br><br>
+
+                        Score: +2 (Earnest)<br><br>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>AGAINST the Proposition</h3>
+
+                <figure>
+                    <img src="opposition.png" alt="Graph opposing idea that race is associated with police complaints." />
+                    <figcaption>The graph above shows the proportion of each category of a complaint and its outcome across each race of police officer.
+                        The percentage for each category is relatively similar across all officer races.</figcaption>
+                </figure>
+
+                <p>Design Decisions and Rationale:</p>
+
+                <ul>
+                    <li>Usage of a stacked bar graph:<br>
+                        Using a stacked bar graph allows the audience to compare the overall distribution of complaint outcome across the racial groups. 
+                        Displaying information this way highlights the similarities across the racial groups, showing the similar distributions and similar shapes for each race. 
+                        This design does make it difficult to compare or highlight the similarities among the smaller categories, but the similarities in the large categories alleviates the need to focus on the smaller categories. 
+                        Other options that were considered was using a group bar graph, but that would overall be too cluttered and the viewer would retain less information.<br><br>
+
+                        Score: 2 (Earnest)<br><br>
+                    </li>
+                    <li>Normalizing data to create proportions:<br>
+                        Raw counts were transformed into proportion for each racial group, resulting in 100% across the board as the maximum. 
+                        This strengthens the opposition since it deceives the viewers that the distributions look very similar for each officer race. 
+                        This worked well because it hides the differences in the sample sizes, and uses a uniform distribution across the board. 
+                        An alternative would be considered using the raw counts, but it would highlight a difference due to the racial distribution of the sample. It wasn’t used since it would weaken the argument being made.<br><br>
+
+                        Score: -1 (Deceptive)<br><br>
+
+                    </li>
+                    <li>Charged title:<br>
+                    The title used highlights that graph complaint outcomes are similar across officer races. 
+                    This works well because it strengthens the argument, promoting the idea to the viewer of similarity being present across officer races. 
+                    This directly influences how the viewer should view and analyze the data, introducing some sort of bias. 
+                    The other alternative was to use a neutral title, but it would not support the argument and possibly open other types of interpretation of the data which in turn may support the opposing argument.<br><br>
+
+                    Score: -1 (Deceptive)<br><br>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Final Reflection</h2>
+
+                <p>The most difficult part of the project was making the opposition side of our proposition persuasive. We originally analyzed the data for reports involving complaints from minority races, but realized
+                    that our data visualizations were so skewed towards them that we would need to remove data in order to make a statement against the proposition. As a result, we decided to focus on minority race police officers,
+                    since we figured that if we could show them as "worse" or equal to white police officers, this would support the argument against the proposition that race is not associated with police complaints. The surprising thing is that the visualization
+                    we produced for the opposition side actually does reflect our goal of making minority race and white police officers look equal without much manipulation to the data. We had plans to add weights to complaint categories
+                    in order to make the percentages more uniform, but the bars for each officer were close enough that we did not need to add them. 
+                </p>
+                <p>Our definition of ethical analysis and visualization is "the process of analyzing and conveying data in the most accurate and objective manner possible". The key point is objectivity, since the goal of a data visualization is to show data, not a message.
+                    The message should be left to the written or explanatory portion of a piece of media, where it can be quoted and supported or refuted. With that being said, there is some level of acceptable persuasive techniques. The line should be drawn at the point where
+                    persuasive techniques start interfering with how we, as the viewer, logically see the visualization. Using Simon Scarr's Iraq War visualization as an example, the use of red to signify blood is an acceptable persuasive technique since we don't logically see
+                    bars in a certain color. The structuring of the y-axis so that it points down, however, is an unacceptable persuasive technique because we logically see ascending numbers as going up and descending numbers as going down. Arranging the y-axis
+                    so that it ascends downwards breaks normal viewing convention. If Simon arranged the y-axis so that it ascends downwards, he should also arrange the x-axis so that the years ascend right-to-left.
+                    The y-axis is labeled in a way that is illogical apart from its use as persuasive weight, so it is misleading.
+                </p>
+            </section>
+        </main>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"c822b88e119346678db149ed7b7721c9","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
